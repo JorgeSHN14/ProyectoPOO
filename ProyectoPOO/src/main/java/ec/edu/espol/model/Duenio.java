@@ -81,7 +81,15 @@ public class Duenio extends Persona{
         }
         return listaDuenios;
     }
-
+    
+    public static Duenio buscarDuenio(ArrayList<Duenio> duenios, String emailDuenio){
+        for(Duenio d:duenios){
+            if(d.getEmail().equals(emailDuenio))
+                return d;
+        }
+        return null;
+    }
+ 
     public static Duenio nextDuenio(Scanner sc ){
         System.out.println("Ingrese los nombres del Dueño:");
         String nombres = sc.next();

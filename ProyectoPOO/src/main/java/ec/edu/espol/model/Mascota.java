@@ -170,8 +170,7 @@ public class Mascota{
         do{
             System.out.println("Ingrese el e-mail de un dueño inscrito:");
             emailDuenio=sc.next();
-            duenioMascota = Duenio.buscarDuenio();
-            //Falta implementar buscarDueño
+            duenioMascota = Duenio.buscarDuenio(duenios, emailDuenio);
             if(duenioMascota != null){
                 m = new Mascota(duenioMascota.getId(),nombre,tipo,raza,fechaNac);
             }
