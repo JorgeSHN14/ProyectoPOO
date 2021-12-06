@@ -170,8 +170,10 @@ public class Concurso {
             while(sc.hasNextLine()){
                 String Linea=sc.nextLine();
                 String[] tokens= Linea.split("\\|");
-                //Falta implementar el string a Formato date
-                Concurso c = new Concurso(Integer.parseInt(tokens[0]),tokens[1],/*Aqui van Fechas*/,tokens[5],Double.parseDouble(tokens[6]));
+                Date fecha = Concurso.strToDate(tokens[2].split(" "));
+                Date fechaIns = Concurso.strToDate(tokens[3].split(" "));
+                Date fechaCierreIns = Concurso.strToDate(tokens[4].split(" "));
+                Concurso c = new Concurso(Integer.parseInt(tokens[0]),tokens[1],fecha,fechaIns,fechaCierreIns,tokens[5],Double.parseDouble(tokens[6]));
                 listaConcursos.add(c);
             }
         }
@@ -180,6 +182,41 @@ public class Concurso {
             System.out.println(e.getMessage());
         }
         return listaConcursos;
+    }
+    
+    public static Date strToDate(String[] fechaStr){
+        int year = Integer.parseInt(fechaStr[5]);
+        int day = Integer.parseInt(fechaStr[2]);
+        int month;
+        switch (fechaStr[1]){
+            case "Jan":
+                month = 0;break;
+            case "Feb":
+                month = 1;break;
+            case "Mar":
+                month = 2;break;
+            case "Apr":
+                month = 3;break;
+            case "May":
+                month = 4;break;
+            case "Jun":
+                month = 5;break;
+            case "Jul":
+                month = 6;break;
+            case "Aug":
+                month = 7;break;
+            case "Sep":
+                month = 8; break;
+            case "Oct":
+                month = 9;break;
+            case "Nov":
+                month = 10;break;
+            default:
+                //December va como default para que al crear la fecha no genere el error de que el mes puede llegar a no definirse
+                month = 11;break;
+                }
+            Date fecha = new Date(year-1900,month,day);
+            return fecha;      
     }
     
     public static Concurso buscarConcurso(ArrayList<Concurso> concursos, String nombreConcurso){

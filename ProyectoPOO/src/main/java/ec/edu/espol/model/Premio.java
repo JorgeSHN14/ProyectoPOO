@@ -123,26 +123,37 @@ public class Premio {
         return listaPremios;
     }
     
-    public static Premio nextPremio(Scanner sc){
+    public static ArrayList<Premio> nextPremios(Scanner sc,  int numPremios){
         ArrayList<Concurso> concursos = Concurso.readFile("concursos.txt");
-        Premio p = null;
         if(concursos.isEmpty())
             return null;
-        System.out.println("Ingrese de que lugar es el premio:");
-        int lugar = sc.nextInt();
-        System.out.println("Ingrese la descripción del premio:");
-        String descripcion = sc.next();
-        String nombreConcurso;
+        ArrayList<Premio> premios = new ArrayList<>();
+        int[] lugares = new int[numPremios];
+        String[] descripciones = new String[numPremios];
         Concurso concursoPremio;
-        System.out.println("Ingrese el nombre del concurso al que pertenece el grupo de premios.");
+        String nombreConcurso;
+        System.out.println("Ingrese los datos cada premio.");
+        for(int i = 0 ; i<numPremios; i++){
+            System.out.println("Premio " + (i+1) +" de " + numPremios);
+            System.out.println("Ingrese de que lugar es el premio:");
+            lugares[i] = sc.nextInt();
+            System.out.println("Ingrese la descripción del premio:");
+            descripciones[i] = sc.next();
+        }
+        System.out.println("Ingrese el nombre del concurso al que pertenece el grupo de criterios.");
         do{
             System.out.println("Ingrese el nombre de un concurso resgistrado:");
             nombreConcurso = sc.next();
             concursoPremio = Concurso.buscarConcurso(concursos, nombreConcurso);
             if(concursoPremio != null){
-                p = new Premio(lugar,descripcion,concursoPremio.getId());
+                Premio p;
+                for(int i = 0 ; i<numPremios; i++){
+                    p = new Premio(lugares[i],descripciones[i],concursoPremio.getId());
+                    premios.add(p);
+                }
             }
         } while(concursoPremio == null);
-        return p;
+        return premios;
     }
+    
 }

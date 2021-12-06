@@ -124,25 +124,34 @@ public class Criterio {
         return listaCriterios;
     }
     
-    public static Criterio nextCriterio(Scanner sc){
+    public static ArrayList<Criterio> nextCriterios(Scanner sc,  int numCriterios){
         ArrayList<Concurso> concursos = Concurso.readFile("concursos.txt");
-        Criterio c = null;
         if(concursos.isEmpty())
             return null;
-        System.out.println("Ingrese la descripción del premio:");
-        String descripcion = sc.next();
+        ArrayList<Criterio> criterios = new ArrayList<>();
+        String[] descripciones = new String[numCriterios];
+        Concurso concursoPremio;
         String nombreConcurso;
-        Concurso concursoCriterio;
-        System.out.println("Ingrese el nombre del concurso al que pertenece el grupo de criterios.");
+        System.out.println("Ingrese los datos cada criterio.");
+        for(int i = 0 ; i<numCriterios; i++){
+            System.out.println("Criterio " + (i+1) +" de " + numCriterios);
+            System.out.println("Ingrese la descripción del criterio:");
+            descripciones[i] = sc.next();
+        }
+        System.out.println("Ingrese el nombre del concurso al que pertenece el grupo de citerios.");
         do{
             System.out.println("Ingrese el nombre de un concurso resgistrado:");
             nombreConcurso = sc.next();
-            concursoCriterio = Concurso.buscarConcurso(concursos, nombreConcurso);
-            if(concursoCriterio != null){
-                c = new Criterio(descripcion,concursoCriterio.getId());
+            concursoPremio = Concurso.buscarConcurso(concursos, nombreConcurso);
+            if(concursoPremio != null){
+                Criterio c;
+                for(int i = 0 ; i<numCriterios; i++){
+                    c = new Criterio(descripciones[i],concursoPremio.getId());
+                    criterios.add(c);
+                }
             }
-        } while(concursoCriterio == null);
-        return c;
+        } while(concursoPremio == null);
+        return criterios;
     }
     
 }

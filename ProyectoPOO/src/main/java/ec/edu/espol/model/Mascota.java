@@ -137,7 +137,37 @@ public class Mascota{
             while(sc.hasNextLine()){
                 String Linea=sc.nextLine();
                 String[] tokens= Linea.split("\\|");
-                //falta implementar conversión de fecha
+                String[] fechaNacStr = tokens[5].split(" ");
+                int year = Integer.parseInt(fechaNacStr[5]);
+                int day = Integer.parseInt(fechaNacStr[2]);
+                int month;
+                switch (fechaNacStr[1]){
+                    case "Jan":
+                        month = 0;break;
+                    case "Feb":
+                        month = 1;break;
+                    case "Mar":
+                        month = 2;break;
+                    case "Apr":
+                        month = 3;break;
+                    case "May":
+                        month = 4;break;
+                    case "Jun":
+                        month = 5;break;
+                    case "Jul":
+                        month = 6;break;
+                    case "Aug":
+                        month = 7;break;
+                    case "Sep":
+                        month = 8; break;
+                    case "Oct":
+                        month = 9;break;
+                    case "Nov":
+                        month = 10;break;
+                     default:
+                        //December va como default para que al crear la fecha no genere el error de que el mes puede llegar a no definirse
+                        month = 11;break;
+                }
                 Date fechaNac = new Date(year-1900,month,day);
                 Mascota m = new Mascota(Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[2],tokens[3],tokens[4],fechaNac);
                 listaMascotas.add(m);
@@ -150,11 +180,19 @@ public class Mascota{
         return listaMascotas;
     }
     
+    public static Mascota buscarMascota(ArrayList<Mascota> mascotas, String nombreMascota){
+        for(Mascota m:mascotas){
+            if(m.getNombre().equals(nombreMascota))
+                return m;
+        }
+        return null;
+    }
+    
     public static Mascota nextMascota(Scanner sc){
         Mascota m = null;
         ArrayList<Duenio> duenios = Duenio.readFile("dueños.txt");
         if (duenios.isEmpty())
-                return null;
+                return m;
         System.out.println("Ingrese el nombre de la mascota:");
         String nombre = sc.next();
         System.out.println("Ingrese el tipo de mascota(gato, perro, etc):");
